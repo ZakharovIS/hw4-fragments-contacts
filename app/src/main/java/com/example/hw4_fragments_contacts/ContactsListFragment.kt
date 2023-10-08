@@ -71,16 +71,13 @@ class ContactsListFragment : Fragment() {
 
     private fun onClick(person: Person, position: Int) {
 
-        val bundle = Bundle().apply {
-            putString("param_firstname", person.name.firstName)
-            putString("param_lastname", person.name.lastName)
-            putString("param_phone", person.phone)
-            putString("param_picture", person.picture.mediumPic)
-            putInt("param_index", personList.indexOf(person))
-            putInt("param_position", position)
-        }
-
-        findNavController().navigate(R.id.action_contactsListFragment_to_contactDetailFragment, bundle)
+        findNavController().navigate(
+            ContactsListFragmentDirections.actionContactsListFragmentToContactDetailFragment(
+                person,
+                personList.indexOf(person),
+                position
+            )
+        )
 
     }
 
