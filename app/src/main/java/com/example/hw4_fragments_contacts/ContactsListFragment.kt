@@ -18,6 +18,8 @@ private const val ARG_PARAM1 = "param_firstname"
 private const val ARG_PARAM2 = "param_lastname"
 private const val ARG_PARAM3 = "param_phone"
 private const val ARG_PARAM4 = "param_picture"
+private const val ARG_PARAM5 = "param_index"
+private const val ARG_PARAM6 = "param_position"
 
 class ContactsListFragment : Fragment() {
 
@@ -45,9 +47,11 @@ class ContactsListFragment : Fragment() {
             param_picture = it.getString(ARG_PARAM4)
         }
         setFragmentResultListener("request_key") { requestKey, bundle ->
-            personList.elementAt(updatedPersonIndex).name.firstName = bundle.getString("param_firstname")!!
-            personList.elementAt(updatedPersonIndex).name.lastName = bundle.getString("param_lastname")!!
-            personList.elementAt(updatedPersonIndex).phone = bundle.getString("param_phone")!!
+            updatedPersonIndex = bundle.getInt(ARG_PARAM5)
+            updatedPersonPosition = bundle.getInt(ARG_PARAM6)
+            personList.elementAt(updatedPersonIndex).name.firstName = bundle.getString(ARG_PARAM1)!!
+            personList.elementAt(updatedPersonIndex).name.lastName = bundle.getString(ARG_PARAM2)!!
+            personList.elementAt(updatedPersonIndex).phone = bundle.getString(ARG_PARAM3)!!
             adapter.notifyItemChanged(updatedPersonPosition)
         }
     }
@@ -79,13 +83,13 @@ class ContactsListFragment : Fragment() {
 
     private fun onClick(person: Person, position: Int) {
 
-        updatedPersonIndex = personList.indexOf(person)
-        updatedPersonPosition = position
         val bundle = Bundle().apply {
             putString("param_firstname", person.name.firstName)
             putString("param_lastname", person.name.lastName)
             putString("param_phone", person.phone)
             putString("param_picture", person.picture.mediumPic)
+            putInt("param_index", personList.indexOf(person))
+            putInt("param_position", position)
         }
 
         parentFragmentManager.commit {

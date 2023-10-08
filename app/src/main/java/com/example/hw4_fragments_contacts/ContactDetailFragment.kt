@@ -10,24 +10,21 @@ import androidx.fragment.app.replace
 import com.bumptech.glide.Glide
 import com.example.hw4_fragments_contacts.databinding.FragmentContactDetailBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param_firstname"
 private const val ARG_PARAM2 = "param_lastname"
 private const val ARG_PARAM3 = "param_phone"
 private const val ARG_PARAM4 = "param_picture"
+private const val ARG_PARAM5 = "param_index"
+private const val ARG_PARAM6 = "param_position"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param_firstname: String? = null
     private var param_lastname: String? = null
     private var param_phone: String? = null
     private var param_picture: String? = null
+    private var param_index: Int? = null
+    private var param_position: Int? = null
 
     private var _binding: FragmentContactDetailBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +36,8 @@ class ContactDetailFragment : Fragment() {
             param_lastname = it.getString(ARG_PARAM2)
             param_phone = it.getString(ARG_PARAM3)
             param_picture = it.getString(ARG_PARAM4)
+            param_index = it.getInt(ARG_PARAM5)
+            param_position = it.getInt(ARG_PARAM6)
         }
     }
 
@@ -46,9 +45,7 @@ class ContactDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentContactDetailBinding.inflate(inflater)
-
         return binding.root
     }
 
@@ -65,6 +62,8 @@ class ContactDetailFragment : Fragment() {
                 putString("param_lastname", param_lastname)
                 putString("param_phone", param_phone)
                 putString("param_picture", param_picture)
+                putInt("param_index", param_index!!)
+                putInt("param_position", param_position!!)
             }
 
             parentFragmentManager.commit {
@@ -74,27 +73,6 @@ class ContactDetailFragment : Fragment() {
         }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ContactDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                    putString(ARG_PARAM3, param2)
-                    putString(ARG_PARAM4, param2)
-                }
-            }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
