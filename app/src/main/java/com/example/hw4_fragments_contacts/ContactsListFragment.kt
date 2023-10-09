@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.hw4_fragments_contacts.data.Person
 import com.example.hw4_fragments_contacts.data.PersonRepository
 import com.example.hw4_fragments_contacts.databinding.FragmentContactsListBinding
@@ -23,11 +22,6 @@ private const val ARG_PARAM6 = "param_position"
 
 class ContactsListFragment : Fragment() {
 
-    private var param_firstname: String? = null
-    private var param_lastname: String? = null
-    private var param_phone: String? = null
-    private var param_picture: String? = null
-
     private val personRepository = PersonRepository()
     private var personList: MutableList<Person> = mutableListOf()
     private lateinit var adapter: PersonsAdapter
@@ -40,12 +34,6 @@ class ContactsListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadData()
-        arguments?.let {
-            param_firstname = it.getString(ARG_PARAM1)
-            param_lastname = it.getString(ARG_PARAM2)
-            param_phone = it.getString(ARG_PARAM3)
-            param_picture = it.getString(ARG_PARAM4)
-        }
         setFragmentResultListener("request_key") { requestKey, bundle ->
             updatedPersonIndex = bundle.getInt(ARG_PARAM5)
             updatedPersonPosition = bundle.getInt(ARG_PARAM6)
@@ -92,10 +80,8 @@ class ContactsListFragment : Fragment() {
             putInt("param_position", position)
         }
 
-        parentFragmentManager.commit {
-            replace<ContactDetailFragment>(containerViewId = R.id.fragment_container, args = bundle)
-            addToBackStack(ContactDetailFragment::class.java.simpleName)
-        }
+        findNavController().navigate(R.id.action_contactsListFragment_to_contactDetailFragment, bundle)
+
     }
 
 }

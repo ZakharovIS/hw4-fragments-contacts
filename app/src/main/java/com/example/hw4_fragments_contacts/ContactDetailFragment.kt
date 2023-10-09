@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.hw4_fragments_contacts.databinding.FragmentContactDetailBinding
 
@@ -66,10 +65,11 @@ class ContactDetailFragment : Fragment() {
                 putInt("param_position", param_position!!)
             }
 
-            parentFragmentManager.commit {
-                replace<ContactEditFragment>(containerViewId = R.id.fragment_container, args = bundle)
-                addToBackStack(ContactEditFragment::class.java.simpleName)
-            }
+            findNavController().navigate(
+                R.id.action_contactDetailFragment_to_contactEditFragment,
+                bundle
+            )
+
         }
     }
 

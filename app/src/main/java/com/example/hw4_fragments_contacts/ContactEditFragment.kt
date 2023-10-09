@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.hw4_fragments_contacts.databinding.FragmentContactEditBinding
 
@@ -45,7 +45,6 @@ class ContactEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentContactEditBinding.inflate(inflater)
         return binding.root
     }
@@ -69,7 +68,7 @@ class ContactEditFragment : Fragment() {
             }
             setFragmentResult("request_key", bundle)
 
-            parentFragmentManager.popBackStack(ContactDetailFragment::class.java.simpleName, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            findNavController().popBackStack(R.id.contactsListFragment , inclusive = true)
 
         }
 
