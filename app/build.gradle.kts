@@ -62,4 +62,6 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
+    implementation("com.github.terrakok:cicerone:7.1")
+
 }

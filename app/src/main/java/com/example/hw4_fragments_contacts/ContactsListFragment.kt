@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.example.hw4_fragments_contacts.data.Person
 import com.example.hw4_fragments_contacts.data.PersonRepository
@@ -23,38 +20,29 @@ private const val ARG_PARAM6 = "param_position"
 
 class ContactsListFragment : Fragment() {
 
-    private var param_firstname: String? = null
-    private var param_lastname: String? = null
-    private var param_phone: String? = null
-    private var param_picture: String? = null
-
     private val personRepository = PersonRepository()
     private var personList: MutableList<Person> = mutableListOf()
     private lateinit var adapter: PersonsAdapter
 
-    private var updatedPersonIndex: Int = 0
-    private var updatedPersonPosition: Int = 0
 
     private var binding: FragmentContactsListBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadData()
-        arguments?.let {
-            param_firstname = it.getString(ARG_PARAM1)
-            param_lastname = it.getString(ARG_PARAM2)
-            param_phone = it.getString(ARG_PARAM3)
-            param_picture = it.getString(ARG_PARAM4)
-        }
-        setFragmentResultListener("request_key") { requestKey, bundle ->
-            updatedPersonIndex = bundle.getInt(ARG_PARAM5)
-            updatedPersonPosition = bundle.getInt(ARG_PARAM6)
-            personList.elementAt(updatedPersonIndex).name.firstName = bundle.getString(ARG_PARAM1)!!
-            personList.elementAt(updatedPersonIndex).name.lastName = bundle.getString(ARG_PARAM2)!!
-            personList.elementAt(updatedPersonIndex).phone = bundle.getString(ARG_PARAM3)!!
+
+        App.INSTANCE.router.setResultListener("request_key") {data ->
+
+            val updatedPersonIndex = (data as Bundle).getInt(ARG_PARAM5)
+            val updatedPersonPosition = data.getInt(ARG_PARAM6)
+            personList.elementAt(updatedPersonIndex).name.firstName = data.getString(ARG_PARAM1)!!
+            personList.elementAt(updatedPersonIndex).name.lastName = data.getString(ARG_PARAM2)!!
+            personList.elementAt(updatedPersonIndex).phone = data.getString(ARG_PARAM3)!!
             adapter.notifyItemChanged(updatedPersonPosition)
         }
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,19 +71,15 @@ class ContactsListFragment : Fragment() {
 
     private fun onClick(person: Person, position: Int) {
 
-        val bundle = Bundle().apply {
-            putString("param_firstname", person.name.firstName)
-            putString("param_lastname", person.name.lastName)
-            putString("param_phone", person.phone)
-            putString("param_picture", person.picture.mediumPic)
-            putInt("param_index", personList.indexOf(person))
-            putInt("param_position", position)
-        }
+        App.INSTANCE.router.navigateTo(
+            Screens.ContactDetail(
+                person,
+                personList.indexOf(person),
+                position
+            )
+        )
 
-        parentFragmentManager.commit {
-            replace<ContactDetailFragment>(containerViewId = R.id.fragment_container, args = bundle)
-            addToBackStack(ContactDetailFragment::class.java.simpleName)
-        }
     }
+
 
 }
