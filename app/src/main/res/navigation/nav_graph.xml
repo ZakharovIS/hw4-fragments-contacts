@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contactsListFragment">
+
+    <fragment
+        android:id="@+id/contactsListFragment"
+        android:name="com.example.hw4_fragments_contacts.ContactsListFragment"
+        android:label="fragment_contacts_list"
+        tools:layout="@layout/fragment_contacts_list">
+        <action
+            android:id="@+id/action_contactsListFragment_to_contactDetailFragment"
+            app:destination="@id/contactDetailFragment"
+            app:launchSingleTop="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailFragment"
+        android:name="com.example.hw4_fragments_contacts.ContactDetailFragment"
+        android:label="fragment_contact_detail"
+        tools:layout="@layout/fragment_contact_detail">
+        <action
+            android:id="@+id/action_contactDetailFragment_to_contactEditFragment"
+            app:destination="@id/contactEditFragment" />
+        <argument
+            android:name="person"
+            app:argType="com.example.hw4_fragments_contacts.data.Person" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactEditFragment"
+        android:name="com.example.hw4_fragments_contacts.ContactEditFragment"
+        android:label="fragment_contact_edit"
+        tools:layout="@layout/fragment_contact_edit">
+        <argument
+            android:name="person"
+            app:argType="com.example.hw4_fragments_contacts.data.Person" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+</navigation>

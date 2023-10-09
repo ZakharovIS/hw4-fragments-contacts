@@ -2,16 +2,18 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs")
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.example.hw4_fragments_contacts"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.hw4_fragments_contacts"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -61,5 +63,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
 
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.4")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.4")
 
 }
